@@ -23,15 +23,8 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
+# enter firebase deets and credentials 
 config = {
-    'apiKey': "AIzaSyCIthqniauFwsOxsM1M2mcMGSce-ES3HUM",
-    'authDomain': "authpy-ca433.firebaseapp.com",
-    'projectId': "authpy-ca433",
-    'storageBucket': "authpy-ca433.appspot.com",
-    'messagingSenderId': "126137146775",
-    'appId': "1:126137146775:web:fb240b8aee12416debf8d2",
-    'measurementId': "G-VEQ3NCBQ9L",
-    'databaseURL': "https://adldel-default-rtdb.asia-southeast1.firebasedatabase.app/"
 }
 
 firebase = pyrebase.initialize_app(config)
