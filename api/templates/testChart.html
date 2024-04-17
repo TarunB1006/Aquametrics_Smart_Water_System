@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+<style>
+    body {
+        font-family: monospace, Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+        color: #333333;
+    }
+    
+    .top-bar {
+        background-color: #222222;
+        color: #ffffff;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .top-bar button {
+        font-family: monospace, Arial, sans-serif;
+        background-color: #222222;
+        color: #ffffff;
+        padding: 8px 16px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .top-bar button:hover {
+        background-color: #333333; /* Darken when hovered */
+    }
+    .company-name {
+        font-size: 24px;
+        text-align: center;
+        flex-grow: 1; /* To occupy available space */
+    }
+    .top-bar img {
+        max-width: 100px;
+        height: auto;
+        margin-right: 20px;
+    }
+    .top-section {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        padding: 20px;
+        opacity: 0; /* Initially hidden */
+        transition: opacity 0.5s ease; /* Smooth transition */
+    }
+    .grid-box {
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    .toggle-btn {
+        width: 60px;
+        height: 30px;
+        background-color: #ffffff;
+        border-radius: 15px;
+        position: relative;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        overflow: hidden;
+        transition: background-color 0.3s ease; /* Smooth transition */
+    }
+    .toggle-btn:before {
+        content: '';
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 24px;
+        height: 24px;
+        background-color: #2ecc71;
+        border-radius: 50%;
+        transition: transform 0.3s ease; /* Smooth transition */
+    }
+    input[type="checkbox"] {
+        display: none;
+    }
+    input[type="checkbox"]:checked + .toggle-btn:before {
+        transform: translateX(30px);
+    }
+    .toggle-btn:hover {
+        background-color: #f0f0f0; /* Lighten when hovered */
+    }
+    .toggle-btn label {
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+    }
+    .bottom-section {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        padding: 20px;
+    }
+    .chart-box {
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .chart-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+    <div class="top-bar">
+        <img src="company-logo.png" alt="Company Logo">
+        <div class="company-name">Company Name</div>
+        <button>Logout</button>
+    </div>
+    <div class="top-section">
+        <div class="grid-box"><h2>Title 1</h2><p>Number</p></div>
+        <div class="grid-box"><h2>Title 2</h2><p>Number</p></div>
+        <div class="grid-box"><h2>Title 3</h2><p>Number</p></div>
+        <div class="grid-box"><h2>Title 4</h2><p>Number</p></div>
+        <div class="grid-box">
+            <h2>Title 5</h2>
+            <label class="toggle-btn">
+                <input type="checkbox">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="grid-box"><h2>Title 6</h2><p>Number</p></div>
+    </div>
+    <div class="bottom-section">
+        <div class="chart-box">
+            <div class="chart-title">Chart Title 1</div>
+            <canvas id="chart1" width="400" height="200"></canvas>
+        </div>
+        <div class="chart-box">
+            <div class="chart-title">Chart Title 2</div>
+            <canvas id="chart2" width="400" height="200"></canvas>
+        </div>
+        <div class="chart-box">
+            <div class="chart-title">Chart Title 3</div>
+            <canvas id="chart3" width="400" height="200"></canvas>
+        </div>
+        <div class="chart-box">
+            <div class="chart-title">Chart Title 4</div>
+            <canvas id="chart4" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {% block javascript %}
+<script>
+    var dayData = JSON.parse("{{ day_data | tojson | safe }}");
+    var weekData = JSON.parse("{{ week_data | tojson | safe}}");
+    var monthData = JSON.parse("{{ month_data | tojson | safe }}");
+    console.log(monthData);
+
+var mlabels = monthData.map(function(e){
+        return e.timestamp;
+    });
+    var mdata = monthData.map(function(e){
+        return e.flow_volume;
+    });
+
+    var ctx = document.getElementById('chart2').getContext('2d');
+var config = {
+   type: 'line',
+   data: {
+      labels: mlabels,
+      datasets: [{
+         label: 'Analog Mérés',
+         data: mdata,
+         backgroundColor: 'rgba(0, 119, 204, 0.3)'
+      }]
+   }
+};
+
+var chart = new Chart(ctx, config);
+
+
+
+
+    // Toggle button color
+    document.querySelectorAll('.toggle-btn').forEach(item => {
+        item.addEventListener('click', event => {
+            const checkbox = item.querySelector('input[type="checkbox"]');
+            checkbox.checked = !checkbox.checked;
+            item.classList.toggle('active');
+            if (checkbox.checked) {
+                item.querySelector('.slider').style.backgroundColor = "#2ecc71"; // Green when on
+            } else {
+                item.querySelector('.slider').style.backgroundColor = "#ffffff"; // White when off
+            }
+        })
+    });
+
+    // Smooth transition for the grid boxes
+    window.onload = function() {
+        document.querySelector('.top-section').style.opacity = 1;
+    };
+</script>
+{% endblock %}
+</body>
+</html>

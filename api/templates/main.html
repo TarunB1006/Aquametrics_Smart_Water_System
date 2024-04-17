@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WaterTrack</title>
+  <link rel="stylesheet" href="\static\styleslogin.css">
+</head>
+<body>
+  <div class="video-container">
+    <video autoplay loop muted class="background-video">
+      <source src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOTF0b2JobXc2endzd3VwdGNqNHZ5MXBzYW84NzVnOXh4em5yaXpjOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7bu5O1zeaXvhi4ve/giphy.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="opacity-layer"></div>
+  </div>
+
+  <div class="top-bar">
+    <div class="container">
+      <img src="\static\rvlogo.png" width="69px" height="69px" class="logosite">
+      <nav>
+        <ul>
+          <li><a href="#top">Home</a></li>
+          <li><a href="#bottom">Working</a></li>
+          <li><a href="{{ url_for('login') }}">Login</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <div id="top" class="content">
+    <div class="container">
+      <h1 id="main-text">AquaMetrics</h1>
+      <p id="tagline">Earn While You Save Water</p>
+    </div>
+  </div>
+
+  <div id="bottom" class="bottom-content">
+    <div class="container">
+      <h2>Working Section</h2>
+      <p>This is the working section of the page.</p>
+    </div>
+  </div>
+
+  <script src="\static\scriptlogin.js"></script>
+</body>
+</html>

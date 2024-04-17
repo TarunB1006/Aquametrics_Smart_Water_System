@@ -1,0 +1,144 @@
+body {
+    margin: 0;
+    font-family: monospace;
+    overflow-y: auto; /* Add a vertical scroll bar */
+  }
+  
+  .video-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .background-video {
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 2s ease; /* Set the opacity of the video */
+  }
+  
+  .opacity-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    transition : opacity 2 ease /* Set the opacity color */
+  }
+  
+  .top-bar {
+    background-color: #007bff;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+  opacity: 0; /* Initially hide the top bar */
+  transition: opacity 4s ease;
+  }
+  
+  .top-bar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+  }
+  
+  .top-bar nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .top-bar nav ul li {
+    font-size: 30px;
+    display: inline;
+    margin-left: 20px;
+  }
+  
+  .top-bar nav ul li a {
+    text-decoration: overline ;
+    color: #fff;
+  }
+  
+  .content {
+    padding-top: 150px; /* Add space for the top bar and centering */
+    text-align: center; /* Center-align the text */
+  }
+  
+  .container {
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  h1, p {
+    font-size: 200px; /* Adjust font size as needed */
+    margin-bottom: 20px;
+    opacity: 0; /* Initially hide the text */
+    transition: opacity 5s ease; /* Fade in transition for the text */
+  }
+  
+  h1 {
+    font-weight: bold; /* Adjust font weight as needed */
+  }
+  
+  /* Additional styling for the tagline */
+  p {
+    font-size: 24px; /* Adjust font size as needed */
+  }
+  
+  /* Show the elements when in view */
+
+  .content.in-view h1,
+  .content.in-view p {
+    opacity: 1;
+  }
+
+/* Add this CSS to your existing styles.css file */
+
+/* Styling for the buttons */
+.top-bar nav ul li {
+    display: inline;
+    margin-left: 20px;
+  }
+  
+  .top-bar nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    padding: 8px 15px; /* Add padding to the buttons */
+    border-radius: 5px; /* Add border-radius for rounded corners */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+  }
+  
+  .top-bar nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Darken the background on hover */
+  }
+  
+  /* Add margin-right to separate the buttons */
+  .top-bar nav ul li:not(:last-child) {
+    margin-right: 20px;
+  }
+  .bottom-content {
+    font-family: monospace;
+    display: flex;
+    justify-content: center; 
+    text-align: center;/* Center horizontally */
+    align-items: center; /* Center vertically */
+    min-height: 100vh; /* Ensure the section takes at least the full viewport height */
+}
+
+.bottom-content h2 {
+    font-size: 125px; /* Increase font size for working section */
+}
+
+  
+  

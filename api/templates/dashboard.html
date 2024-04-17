@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <!-- Montserrat Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="\static\styles.css">
+  </head>
+  <body>
+    <div class="grid-container">
+
+      <!-- Header -->
+      <header class="header">
+        <div class="menu-icon" onclick="openSidebar()">
+          <span class="material-icons-outlined">menu</span>
+        </div>
+        <div class="header-left">
+          <span class="material-icons-outlined"></span> Waterboard
+        </div>
+        <div class="header-right">
+          <span class="material-icons-outlined">notifications</span>
+          <span class="material-icons-outlined">email</span>
+          <div class="menu-icon" onclick="toggleSidebar()">
+            <span class="material-icons-outlined">menu</span>
+          </div>
+        </div>
+      </header>
+      <!-- End Header -->
+
+      <!-- Sidebar -->
+      <aside id="sidebar">
+        <div class="sidebar-title">
+          <div class="sidebar-brand">
+            <span class="material-icons-outlined">account_circle</span> Welcome
+          </div>
+          <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
+        </div>
+
+        <ul class="sidebar-list">
+          <li class="sidebar-list-item">
+            <a href="#" target="_blank">
+              <span class="material-icons-outlined">dashboard</span> Dashboard
+            </a>
+          </li>
+       
+          
+          <li class="sidebar-list-item">
+            <a href="#" target="_blank">
+              <span class="material-icons-outlined">settings</span>Logout
+            </a>
+          </li>
+        </ul>
+      </aside>
+      <!-- End Sidebar -->
+
+      <!-- Main -->
+    <main class="main-container">
+        <div class="main-title">
+          <p class="font-weight-bold">DASHBOARD</p>
+        </div>
+
+        <div class="main-cards" style="display: flex; flex-wrap: wrap; justify-content: space-between;">  <div class="card" style="width: calc(25% - 10px);">  <div class="card-inner">
+            <p class="text-primary">DAILY USAGE</p>
+            <span class="material-icons-outlined text-blue">water</span>
+          </div>
+          <span class="text-primary font-weight-bold">{{current_day_usage}}</span>
+        </div>
+      
+        <div class="card" style="width: calc(25% - 10px);">
+          <div class="card-inner">
+            <p class="text-primary">WEEKLY USAGE</p>
+            <span class="material-icons-outlined text-orange">water</span>
+          </div>
+          <span class="text-primary font-weight-bold">{{current_week_usage}}</span>
+        </div>
+      
+        <div class="card" style="width: calc(25% - 10px);">
+          <div class="card-inner">
+            <p class="text-primary">TOTAL USAGE THIS MONTH</p>
+            <span class="material-icons-outlined text-green">water</span>
+          </div>
+          <span class="text-primary font-weight-bold">{{current_month_usage}}</span>
+        </div>
+      
+        <div class="card" style="width: calc(25% - 10px);">
+          <div class="card-inner" style="display: flex; justify-content: space-between;">
+            <p class="text-primary">COST <span class="material-icons-outlined"></span></p>
+            <span class="text-primary font-weight-bold">{{1.5*current_month_usage}}</span>
+          </div>
+        </div>
+
+        <div class="card" style="width: calc(25% - 10px);">
+          <div class="card-inner" style="display: flex; justify-content: space-between;">
+            <p class="text-primary">OUT OF HOME</p>
+            <label class="toggle-switch">
+              <input type="checkbox" />
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+    
+      
+        <div class="card" style="width: calc(25% - 10px);">
+          <div class="card-inner" style="display: flex; justify-content: space-between;">
+            <p class="text-primary">TURBIDITY <span class="material-icons-outlined">terrain</span></p>
+            <span class="text-primary font-weight-bold">0.8</span>
+          </div>
+        </div>
+    </div>
+      
+
+        <div class="charts">
+
+          <div class="charts-card">
+            <p class="chart-title"> Consumption </p>
+            <div id="bar-chart"></div>
+          </div>
+
+          <div class="charts-card">
+            <p class="chart-title"> Turbidity </p>
+            <div id="area-chart"></div>
+          </div>
+
+          
+        
+        </div>
+      </main>
+      <!-- End Main -->
+
+    </div>
+
+    <!-- Scripts -->
+    <!-- ApexCharts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.3/apexcharts.min.js"></script>
+    <!-- Custom JS -->
+    {% block javascript %}
+    <script>
+      // SIDEBAR TOGGLE
+      const dayData = JSON.parse('{{ day_data | tojson | safe }}');
+  const week_data="{{week_data}}";
+  const month_data="{{month_data}}";
+  const week_data_grouped=JSON.parse('{{week_data_grouped | tojson | safe}}');
+ 
+
+  console.log(week_data_grouped);
+  //const days = [];
+  const week_flow_values = [];
+  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    // Extract days and values from weekDataGrouped
+   // for (const day in week_data_grouped) {
+   //     days.push(day);
+    //    week_flow_values.push(week_data_grouped[day]);
+    //}
+    for (const day of days) {
+        week_flow_values.push(week_data_grouped[day] || 0);
+    }
+  const litresConsumedData = dayData.map(item => item.flow_volume);
+let sidebarOpen = false;
+const sidebar = document.getElementById('sidebar');
+const content = document.getElementById('main-container'); // Update the content container ID
+console.log(days)
+console.log(week_flow_values)
+function openSidebar() {
+  if (!sidebarOpen) {
+    sidebar.classList.add('sidebar-open');
+    content.classList.add('content-shrink'); // Add class to shrink content
+    sidebarOpen = true;
+  }
+}
+
+function closeSidebar() {
+  if (sidebarOpen) {
+    sidebar.classList.remove('sidebar-open');
+    content.classList.remove('content-shrink'); // Remove class to expand content
+    sidebarOpen = false;
+  }
+}
+
+function toggleSidebar() {
+  if (sidebarOpen) {
+    closeSidebar();
+  } else {
+    openSidebar();
+  }
+}
+
+// ---------- CHARTS ----------
+
+// BAR CHART
+const barChartOptions = {
+  series: [
+    {
+      data: week_flow_values,
+    },
+  ],
+  chart: {
+    type: 'bar',
+    height: 350,
+    toolbar: {
+      show: false,
+    },
+  },
+  colors: ['#246dec', '#cc3c43', '#367952', '#f5b74f', '#4f35a1'],
+  plotOptions: {
+    bar: {
+      distributed: true,
+      borderRadius: 4,
+      horizontal: false,
+      columnWidth: '40%',
+    },
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  legend: {
+    show: false,
+  },
+  xaxis: {
+    categories: days,
+  },
+  yaxis: {
+    title: {
+      text: 'Count',
+    },
+  },
+};
+
+const barChart = new ApexCharts(
+  document.querySelector('#bar-chart'),
+  barChartOptions
+);
+barChart.render();
+
+// AREA CHART
+const areaChartOptions = {
+  series: [
+
+    {
+      name: 'Turbidity',
+      data: [0.5, 0.6, 0.8, 0.7, 2.8, 0.7, 0.7],
+    },
+  ],
+  chart: {
+    height: 350,
+    type: 'area',
+    toolbar: {
+      show: false,
+    },
+  },
+  colors: ['#4f35a1', '#246dec'],
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    curve: 'smooth',
+  },
+  labels: ['', '', '', '', '', '', ''],
+  markers: {
+    size: 0,
+  },
+  yaxis: [
+    {
+      title: {
+        text: '',
+      },
+    },
+    {
+      opposite: true,
+      title: {
+        text: 'Turbidity',
+      },
+    },
+  ],
+  tooltip: {
+    shared: true,
+    intersect: false,
+  },
+};
+
+const areaChart = new ApexCharts(
+  document.querySelector('#area-chart'),
+  areaChartOptions
+);
+areaChart.render();
+
+// WEEKLY CHART
+const weeklyChartOptions = {
+  series: [
+   
+    {
+      name: 'LITRES CONSUMED',
+      data: [11, 32, 45, 32, 34, 52, 41],
+    },
+  ],
+  chart: {
+    height: 350,
+    type: 'area',
+    toolbar: {
+      show: false,
+    },
+  },
+  colors: ['#4f35a1', '#246dec'],
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    curve: 'smooth',
+  },
+  labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  markers: {
+    size: 0,
+  },
+  yaxis: [
+    {
+      title: {
+        text: 'Price',
+      },
+    },
+    {
+      opposite: true,
+      title: {
+        text: 'Consumption(in litres)',
+      },
+    },
+  ],
+  tooltip: {
+    shared: true,
+    intersect: false,
+  },
+};
+
+// WEEKLY CHART
+const weeklyChart = new ApexCharts(
+  document.querySelector('#weekly-chart'),
+  areaChartOptions
+);
+weeklyChart.render();
+
+// MONTHLY CHART
+const monthlyChartOptions = {
+  series: [
+  
+    {
+      name: 'LITRES CONSUMED',
+      data: [11, 32, 45, 32, 34, 52, 41],
+    },
+  ],
+  chart: {
+    height: 350,
+    type: 'area',
+    toolbar: {
+      show: false,
+    },
+  },
+  colors: ['#4f35a1', '#246dec'],
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    curve: 'smooth',
+  },
+  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+  markers: {
+    size: 0,
+  },
+  yaxis: [
+    {
+      title: {
+        text: 'Price',
+      },
+    },
+    {
+      opposite: true,
+      title: {
+        text: 'Consumption(in litres)',
+      },
+    },
+  ],
+  tooltip: {
+    shared: true,
+    intersect: false,
+  },
+};
+
+// WEEKLY CHART
+const monthlyChart = new ApexCharts(
+  document.querySelector('#monthly-chart'),
+  areaChartOptions
+);
+monthlyChart.render();
+
+function openPerksPage() {
+  window.location.href = "perks.html"; // Change 'perks.html' to the desired URL
+}
+
+
+    </script>
+    {% endblock %}
+  </body>
+</html>

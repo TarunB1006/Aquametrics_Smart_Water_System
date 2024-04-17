@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="\static\stylesloginpage.css"> <!-- Link your stylesheet -->
+</head>
+
+
+<div class="top-bar">
+    <div class="container1">
+      <img src="\static\rvlogo.png"  width="69px" height="69px" class="logosite">
+      <nav>
+        <ul>
+          <li font-family = 'monospace' font-size = '16px' text-align = 'center'><a href="C:\Users\91944\Documents\website\Smart-Water-Meter-System-\api\templates\main.html">Home</a></li>
+      </ul>
+      </nav>
+    </div>
+  </div>
+	
+
+    <div class="container" id="container">
+        <div class="video-container">
+            <video autoplay loop muted class="background-video">
+                <source src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOTF0b2JobXc2endzd3VwdGNqNHZ5MXBzYW84NzVnOXh4em5yaXpjOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7bu5O1zeaXvhi4ve/giphy.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="opacity-layer"></div>
+        </div>
+        <div class="form-container sign-up-container">
+            <form method="post" action="/signup">
+                <h1 margin-bottom = "10px">Create Account</h1>
+                <span margin= "20px">Use your email for registration</span>
+                <input type="text" placeholder="Name" id="name" name="name" />
+                <input type="email" placeholder="Email" id = "email" name="email"/>
+                <input type="password" placeholder="Password" id = "password" name="password"/>
+                <button>Sign Up</button>
+            </form>
+        </div>
+<body>
+   
+
+
+        <div class="form-container sign-in-container">
+            <form method="post" action="/login">
+                <h1>Sign in</h1>
+                <span>Use your account</span>
+                <input type="email" placeholder="Email" id = "email" name="email"/>
+                <input type="password" placeholder="Password" id = "password" name="password"/>
+                <button>Sign In</button>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Welcome Back!</h1>
+                    <p>To keep connected with us please login with your personal info</p>
+                    <button class="ghost" id="signIn">Sign In</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Hello!!</h1>
+                    <p>Enter your personal details and start journey with us</p>
+                    <button class="ghost" id="signUp">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="\static\scriptsloginpage.js"></script> <!-- Link your JavaScript file -->
+
+    <footer>
+        <p>Created for ADLD EL by Team 12.</p>
+    </footer>
+</body>
+</html>
