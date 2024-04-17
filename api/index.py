@@ -11,12 +11,12 @@ from collections import defaultdict
 
 day_names = {0: 'Monday', 1: 'Tuesday', 2: 'Wednesday', 3: 'Thursday', 4: 'Friday', 5: 'Saturday', 6: 'Sunday'}
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://avnadmin:AVNS_Xo5gTyuBawl_W7YrVpP@mysql-water-smart-water-meter.a.aivencloud.com:15600/defaultdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = #create your cloud database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'your_secret_key'
-FIREBASE_URL = "https://adldel-default-rtdb.asia-southeast1.firebasedatabase.app/"
+FIREBASE_URL = #create a firebase app and paste it's link here
 FIREBASE_NODE = "flow_data.json"
-FIREBASE_API="AIzaSyA92F6Id4HfFyTySnGZ6UM2fqWyl7_DAlw"""
+FIREBASE_API= #paste the api of the firebase app
 
 db.init_app(app)
 
